@@ -1,0 +1,18 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        
+      {
+        "name": "Dart",
+        "request": "launch",
+        "type": "dart",
+        "program": "bin/main.dart",  // 此处设置为你的 Dart 程序文件的相对路径
+        "args": [],
+        "cwd": "YOUR_PROJECT_DIRECTORY",  // 设置为你的项目目录
+        "env": {},
+        "sourceMapPathOverrides": {},
+        "preLaunchTask": "dart: build"
+      }
+    ]
+  }
+  
