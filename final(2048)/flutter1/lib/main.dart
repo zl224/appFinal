@@ -9,17 +9,63 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('2048小遊戲'),
+      home: NameInputScreen(),
+    );
+  }
+}
+
+class NameInputScreen extends StatefulWidget {
+  @override
+  _NameInputScreenState createState() => _NameInputScreenState();
+}
+
+class _NameInputScreenState extends State<NameInputScreen> {
+  final TextEditingController _nameController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('2048小遊戲'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextField(
+              controller: _nameController,
+              decoration: InputDecoration(
+                labelText: '請輸入您的姓名',
+              ),
+            ),
+            SizedBox(height: 16.0),
+            ElevatedButton(
+              onPressed: () {
+                String userName = _nameController.text;
+                if (userName.isNotEmpty) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Game2048(userName: userName),
+                    ),
+                  );
+                }
+              },
+              child: Text('開始遊戲'),
+            ),
+          ],
         ),
-        body: Game2048(),
       ),
     );
   }
 }
 
 class Game2048 extends StatefulWidget {
+  final String userName;
+
+  const Game2048({Key? key, required this.userName}) : super(key: key);
+
   @override
   _Game2048State createState() => _Game2048State();
 }
@@ -74,7 +120,9 @@ class _Game2048State extends State<Game2048> {
     int i = index ~/ 4;
     int j = index % 4;
 
-    board[i][j] = random.nextInt(5) == 0 ? 4 : 2; // Adjusted probability
+    setState(() {
+      board[i][j] = random.nextInt(5) == 0 ? 4 : 2; // Adjusted probability
+    });
   }
 
   void swipe(Direction direction) {
@@ -173,7 +221,7 @@ class _Game2048State extends State<Game2048> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onVerticalDragEnd: (details) {
+       onVerticalDragEnd: (details) {
         if (details.primaryVelocity! > 0) {
           // 向下滑動
           swipe(Direction.down);
